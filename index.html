@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TAPS Construções — Locação de máquinas e equipamentos, venda de ferramentas e materiais para construção civil. Peça pelo site e pague via PIX.">
+  <title>TAPS Construções — Materiais e Equipamentos para Obra</title>
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23FF6600'/%3E%3Cpath d='M7 8h18v5h-6.5v11h-5V13H7z' fill='%23111'/%3E%3C/svg%3E">
+
+  <!-- Fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Biblioteca do QR Code (gera a matriz do BR Code) -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="travado">
+
+  <!-- ============ ÍCONES DE INTERFACE (sprite SVG) ============ -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-cart" viewBox="0 0 24 24"><circle cx="9.5" cy="20" r="1.6"/><circle cx="17.5" cy="20" r="1.6"/><path d="M3 4h2.2l2.3 11h10L20.5 8H6"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+      <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+      <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M15 5H6a1 1 0 00-1 1v10"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6.5 7l1 14h9l1-14"/></symbol>
+      <symbol id="i-pix" viewBox="0 0 24 24"><rect x="6.9" y="6.9" width="10.2" height="10.2" transform="rotate(45 12 12)"/><path d="M9.8 12l2.2 2.2L14.2 12 12 9.8z"/></symbol>
+      <symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a12 12 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.5 2"/></symbol>
+      <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+    </defs>
+  </svg>
+
+  <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+  <!-- ============ PORTÃO DE CADASTRO (obrigatório) ============ -->
+  <div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gateTitulo">
+    <div class="gate-interno">
+      <div class="gate-caixa">
+        <div class="faixa"></div>
+        <div class="gate-corpo">
+          <p class="gate-chamada">Acesso exclusivo de clientes</p>
+          <h1 class="gate-marca" id="gateTitulo">TAPS <span>CONSTRUÇÕES</span></h1>
+          <p class="gate-aviso">Cadastre-se para ver preços, comprar materiais, ferramentas e solicitar locação de máquinas.</p>
+
+          <form id="formCadastro" novalidate>
+            <div class="form-linha">
+              <div class="campo">
+                <label for="fcpf">CPF *</label>
+                <input type="text" id="fcpf" name="cpf" inputmode="numeric" autocomplete="off"
+                       placeholder="000.000.000-00" maxlength="14" aria-describedby="err-cpf" required>
+                <p class="campo-erro" id="err-cpf" role="alert"></p>
+              </div>
+              <div class="campo">
+                <label for="frg">RG *</label>
+                <input type="text" id="frg" name="rg" autocomplete="off"
+                       placeholder="00.000.000-0" maxlength="14" aria-describedby="err-rg" required>
+                <p class="campo-erro" id="err-rg" role="alert"></p>
+              </div>
+            </div>
+
+            <div class="campo">
+              <label for="fnome">Nome completo *</label>
+              <input type="text" id="fnome" name="nome" autocomplete="name"
+                     placeholder="Ex.: João da Silva" aria-describedby="err-nome" required>
+              <p class="campo-erro" id="err-nome" role="alert"></p>
+            </div>
+
+            <div class="form-linha">
+              <div class="campo">
+                <label for="fbairro">Bairro *</label>
+                <input type="text" id="fbairro" name="bairro" autocomplete="address-level3"
+                       placeholder="Ex.: Jardim das Obras" aria-describedby="err-bairro" required>
+                <p class="campo-erro" id="err-bairro" role="alert"></p>
+              </div>
+              <div class="campo">
+                <label for="fcidade">Cidade *</label>
+                <input type="text" id="fcidade" name="cidade" autocomplete="address-level2"
+                       placeholder="Ex.: Porto Velho" aria-describedby="err-cidade" required>
+                <p class="campo-erro" id="err-cidade" role="alert"></p>
+              </div>
+            </div>
+
+            <div class="campo">
+              <label for="ftel">Telefone *</label>
+              <input type="tel" id="ftel" name="telefone" inputmode="numeric" autocomplete="tel"
+                     placeholder="(69) 90000-0000" maxlength="15" aria-describedby="err-tel" required>
+              <p class="campo-erro" id="err-tel" role="alert"></p>
+            </div>
+
+            <button type="submit" class="btn btn-cheio">
+              Entrar no site
+              <svg aria-hidden="true"><use href="#i-arrow"/></svg>
+            </button>
+          </form>
+
+          <p class="gate-nota">
+            Seus dados são usados apenas para identificação do pedido.
+            Nesta versão o cadastro é processado no seu navegador — em produção será
+            validado por um servidor seguro, sem armazenar documentos no dispositivo.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SITE ============ -->
+  <div id="site" class="oculto">
+
+    <header class="topo">
+      <div class="topo-conteudo">
+        <a href="#inicio" class="marca">TAPS<span>CONSTRUÇÕES</span></a>
+
+        <button class="btn-menu" id="btnMenu" aria-expanded="false" aria-controls="menuNavegacao" aria-label="Abrir menu">
+          <svg aria-hidden="true"><use href="#i-menu"/></svg>
+        </button>
+
+        <nav class="menu" id="menuNavegacao" aria-label="Navegação principal">
+          <a href="#inicio" data-nav>Início</a>
+          <a href="#produtos" data-nav data-filtro="ferramentas">Ferramentas</a>
+          <a href="#produtos" data-nav data-filtro="todos">Produtos</a>
+          <a href="#maquinas" data-nav>Máquinas</a>
+          <a href="#produtos" data-nav data-filtro="materiais">Materiais</a>
+          <a href="#" data-nav data-abre-carrinho>Carrinho</a>
+        </nav>
+
+        <div class="topo-acoes">
+          <span class="perfil">Olá, <b id="perfilNome"></b></span>
+          <button class="btn-sair" id="btnSair" type="button">Sair</button>
+          <button class="btn-carrinho" id="btnCarrinho" type="button" aria-label="Abrir carrinho de compras">
+            <svg aria-hidden="true"><use href="#i-cart"/></svg>
+            <span class="badge" id="badgeCarrinho" hidden>0</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="conteudo" tabindex="-1">
+
+      <!-- ============ HERO ============ -->
+      <section class="hero" id="inicio" aria-labelledby="heroTitulo">
+        <div class="hero-conteudo">
+          <div class="hero-texto revelar">
+            <p class="kicker">Locação de máquinas &nbsp;•&nbsp; Venda de materiais &nbsp;•&nbsp; Ferramentas &nbsp;•&nbsp; EPIs</p>
+            <h1 class="hero-titulo" id="heroTitulo">
+              TAPS<br><span class="vazado">CONSTRUÇÕES</span>
+            </h1>
+            <p class="hero-sub">Soluções completas para sua obra.</p>
+            <p class="hero-par">
+              Da fundação ao acabamento: alugamos máquinas e equipamentos pesados e vendemos
+              ferramentas, materiais básicos e insumos para a construção civil — com uma grande
+              variedade de produtos, pedido fácil pelo site e pagamento rápido via PIX.
+            </p>
+            <div class="hero-botoes">
+              <a class="btn" href="#produtos">
+                Ver produtos
+                <svg aria-hidden="true"><use href="#i-arrow"/></svg>
+              </a>
+              <a class="btn btn-fantasma" href="#maquinas">Máquinas para locação</a>
+            </div>
+            <ul class="hero-stats">
+              <li><b>43+</b><span>itens no catálogo</span></li>
+              <li><b>11</b><span>máquinas para locação</span></li>
+              <li><b>PIX</b><span>pagamento rápido</span></li>
+            </ul>
+          </div>
+
+          <div class="hero-painel revelar" aria-hidden="false">
+            <svg viewBox="0 0 560 420" class="hero-desenho" role="img" aria-label="Desenho técnico de uma escavadeira hidráulica da frota TAPS">
+              <text x="40" y="48" fill="#FF6600" font-size="13" letter-spacing="3" font-family="Barlow Condensed">FIG. 01 — FROTA PESADA TAPS</text>
+              <!-- cantos de prancha -->
+              <g stroke="#FF6600" stroke-width="2" fill="none">
+                <path d="M22 22h16M22 22v16"/><path d="M538 22h-16M538 22v16"/>
+                <path d="M22 398h16M22 398v-16"/><path d="M538 398h-16M538 398v-16"/>
+              </g>
+              <!-- cotas -->
+              <g stroke="#6B665F" stroke-width="1.2" fill="none">
+                <path d="M60 352v14M500 352v14"/>
+                <path d="M64 359h432"/>
+                <path d="M514 110v232"/>
+                <path d="M507 114v224" transform="translate(14,0) scale(-1,1) translate(-1028,0)"/>
+              </g>
+              <text x="280" y="386" text-anchor="middle" fill="#8A857D" font-size="16" letter-spacing="4" font-family="Barlow Condensed">12,40 m</text>
+              <text x="536" y="226" text-anchor="middle" fill="#8A857D" font-size="16" letter-spacing="4" font-family="Barlow Condensed" transform="rotate(90 536 226)">3,95 m</text>
+              <!-- escavadeira -->
+              <g transform="translate(168,104) scale(2.9)" fill="none" stroke="#D8D3CB" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="18" y="52" width="36" height="16"/>
+                <path d="M26 52V40h12v12"/>
+                <rect x="14" y="70" width="46" height="10"/>
+                <circle cx="26" cy="63" r="3"/><circle cx="48" cy="63" r="3"/>
+                <path d="M54 54l16-14 10 12"/>
+                <path stroke="#FF6600" d="M80 52l-12 2 5 10z"/>
+                <path stroke="#FF6600" d="M36 46v-4"/>
+              </g>
+            </svg>
+            <p class="hero-selo">Locação a partir de <b>R$ 12,00 <span>/ diária</span></b></p>
+          </div>
+        </div>
+
+        <!-- faixa rolante de materiais -->
+        <div class="marquee" aria-hidden="true">
+          <div class="marquee-track" id="marqueeTrack"></div>
+        </div>
+      </section>
+
+      <!-- ============ CATEGORIAS ============ -->
+      <section class="secao" aria-labelledby="tituloCategorias">
+        <div class="secao-cabecalho revelar">
+          <p class="kicker">Departamentos</p>
+          <h2 class="secao-titulo" id="tituloCategorias">Do básico ao pesado.</h2>
+        </div>
+        <div class="indice revelar">
+          <button class="indice-linha" data-ir="ferramentas">
+            <span class="indice-num">01</span>
+            <span class="indice-texto"><b>Ferramentas</b><small>Manuais e elétricas para o dia a dia da obra.</small></span>
+            <svg aria-hidden="true"><use href="#i-arrow"/></svg>
+          </button>
+          <button class="indice-linha" data-ir="materiais">
+            <span class="indice-num">02</span>
+            <span class="indice-texto"><b>Materiais</b><small>Cimento, areia, brita, argamassa, cal, aço e mais.</small></span>
+            <svg aria-hidden="true"><use href="#i-arrow"/></svg>
+          </button>
+          <button class="indice-linha" data-ir="maquinas">
+            <span class="indice-num">03</span>
+            <span class="indice-texto"><b>Máquinas</b><small>Locação de equipamentos pesados, por diária.</small></span>
+            <svg aria-hidden="true"><use href="#i-arrow"/></svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- ============ CATÁLOGO (produtos) ============ -->
+      <section class="secao" id="produtos" aria-labelledby="tituloCatalogo">
+        <div class="secao-cabecalho revelar">
+          <p class="kicker">Venda</p>
+          <h2 class="secao-titulo" id="tituloCatalogo">Catálogo</h2>
+        </div>
+
+        <div class="busca-caixa revelar">
+          <label class="busca-rotulo" for="buscaInput">O que você procura?</label>
+          <div class="busca">
+            <svg aria-hidden="true"><use href="#i-search"/></svg>
+            <input type="search" id="buscaInput" placeholder="Ex.: cimento, furadeira, tubo PVC…"
+                   autocomplete="off" aria-label="Pesquisar produtos por nome">
+          </div>
+          <div class="chips" id="filtrosChips" role="group" aria-label="Filtrar por categoria"></div>
+        </div>
+
+        <p class="contagem" id="contagemCatalogo" aria-live="polite"></p>
+        <div class="grade" id="gridProdutos"></div>
+        <div class="vazio oculto" id="vazioCatalogo">
+          <p>Nenhum item encontrado.</p>
+          <button class="btn btn-fantasma" data-limpar-busca>Limpar pesquisa</button>
+        </div>
+      </section>
+
+      <!-- ============ MÁQUINAS PARA LOCAÇÃO ============ -->
+      <section class="secao" id="maquinas" aria-labelledby="tituloMaquinas">
+        <div class="secao-cabecalho revelar">
+          <p class="kicker">Locação</p>
+          <h2 class="secao-titulo" id="tituloMaquinas">Máquinas &amp; equipamentos</h2>
+          <p class="secao-nota">Valores por diária. A solicitação é confirmada pela equipe TAPS conforme a agenda da frota.</p>
+        </div>
+        <div class="grade" id="gridMaquinas"></div>
+        <div class="vazio oculto" id="vazioMaquinas">
+          <p>Nenhuma máquina encontrada para esta pesquisa.</p>
+          <button class="btn btn-fantasma" data-limpar-busca>Limpar pesquisa</button>
+        </div>
+      </section>
+    </main>
+
+    <!-- ============ RODAPÉ ============ -->
+    <footer class="rodape">
+      <div class="faixa"></div>
+      <div class="rodape-conteudo">
+        <div class="rodape-marca">
+          <p class="marca marca-grande">TAPS<span>CONSTRUÇÕES</span></p>
+          <p>Materiais e equipamentos para sua obra.</p>
+        </div>
+        <nav class="rodape-col" aria-label="Produtos">
+          <h3>Produtos</h3>
+          <a href="#produtos" data-filtro="ferramentas">Ferramentas</a>
+          <a href="#produtos" data-filtro="materiais">Materiais</a>
+          <a href="#maquinas">Máquinas</a>
+          <a href="#produtos" data-filtro="epis">EPIs</a>
+          <a href="#produtos" data-filtro="eletrica">Elétrica</a>
+          <a href="#produtos" data-filtro="hidraulica">Hidráulica</a>
+        </nav>
+        <div class="rodape-col">
+          <h3>Atendimento</h3>
+          <p><svg aria-hidden="true"><use href="#i-phone"/></svg> (69) 90800-1250</p>
+          <p><svg aria-hidden="true"><use href="#i-clock"/></svg> Seg. a sáb., 7h às 18h</p>
+          <p><svg aria-hidden="true"><use href="#i-pin"/></svg> Porto Velho e região</p>
+        </div>
+        <div class="rodape-col">
+          <h3>Informações</h3>
+          <p><svg aria-hidden="true"><use href="#i-pix"/></svg> Pagamento via PIX</p>
+          <p>Chave PIX (telefone): <b>069 080 012 50</b></p>
+          <p>Pedido mínimo: conforme catálogo</p>
+        </div>
+      </div>
+      <p class="rodape-copy">© <span id="ano"></span> TAPS Construções — Todos os direitos reservados.</p>
+    </footer>
+  </div>
+
+  <!-- ============ CARRINHO (painel lateral) ============ -->
+  <div class="overlay oculto" id="overlayDrawer"></div>
+  <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Carrinho de compras" aria-hidden="true">
+    <div class="faixa"></div>
+    <header class="drawer-topo">
+      <h2>Carrinho <span id="drawerContagem"></span></h2>
+      <button class="btn-x" id="fecharDrawer" aria-label="Fechar carrinho">
+        <svg aria-hidden="true"><use href="#i-close"/></svg>
+      </button>
+    </header>
+    <div class="drawer-lista" id="listaCarrinho"></div>
+    <p class="drawer-vazio oculto" id="vazioCarrinho">
+      Seu carrinho está vazio.<br><small>Adicione materiais, ferramentas ou solicite a locação de máquinas.</small>
+    </p>
+    <footer class="drawer-rodape oculto" id="rodapeCarrinho">
+      <div class="drawer-total">
+        <span>Total da compra</span>
+        <b id="totalCarrinho">R$ 0,00</b>
+      </div>
+      <p class="drawer-aviso">Pagamento exclusivamente via PIX.</p>
+      <button class="btn btn-cheio" id="btnFinalizar">
+        Finalizar compra
+        <svg aria-hidden="true"><use href="#i-arrow"/></svg>
+      </button>
+    </footer>
+  </aside>
+
+  <!-- ============ MODAL: DETALHE DO ITEM ============ -->
+  <div class="modal oculto" id="modalDetalhe" role="dialog" aria-modal="true" aria-labelledby="detalheTitulo">
+    <div class="modal-painel">
+      <button class="btn-x" id="fecharDetalhe" aria-label="Fechar detalhes">
+        <svg aria-hidden="true"><use href="#i-close"/></svg>
+      </button>
+      <div id="corpoDetalhe"></div>
+    </div>
+  </div>
+
+  <!-- ============ MODAL: CHECKOUT / PIX ============ -->
+  <div class="modal oculto" id="modalCheckout" role="dialog" aria-modal="true" aria-labelledby="checkoutTitulo">
+    <div class="modal-painel">
+      <button class="btn-x" id="fecharCheckout" aria-label="Fechar checkout">
+        <svg aria-hidden="true"><use href="#i-close"/></svg>
+      </button>
+
+      <header class="ck-topo">
+        <h2 id="checkoutTitulo">Finalizar compra</h2>
+        <ol class="ck-passos" id="ckPassos">
+          <li data-passo="1">Confira</li>
+          <li data-passo="2">Pagamento PIX</li>
+          <li data-passo="3">Pedido</li>
+        </ol>
+      </header>
+
+      <!-- Passo 1: conferência -->
+      <section class="ck-passo" id="ck1">
+        <ul class="ck-itens" id="ckItens"></ul>
+        <div class="ck-total">
+          <span>Total a pagar</span>
+          <b id="ckTotal1">R$ 0,00</b>
+        </div>
+        <button class="btn btn-cheio" id="btnGerarPix">
+          <svg aria-hidden="true"><use href="#i-pix"/></svg>
+          Gerar pagamento PIX
+        </button>
+      </section>
+
+      <!-- Passo 2: PIX -->
+      <section class="ck-passo oculto" id="ck2">
+        <p class="ck-valor-rotulo">Valor total</p>
+        <p class="ck-valor" id="ckValor">R$ 0,00</p>
+        <p class="ck-chave">Chave PIX (telefone): <b>069 080 012 50</b></p>
+
+        <div class="ck-qr" id="ckQrWrap">
+          <canvas id="ckQrCanvas" aria-label="QR Code do PIX" role="img"></canvas>
+        </div>
+        <p class="ck-qr-falha oculto" id="ckQrFalha">
+          Não foi possível gerar o QR Code neste dispositivo.<br>Use o código Copia e Cola abaixo.
+        </p>
+
+        <label class="ck-codigo-rotulo" for="ckCodigo">PIX Copia e Cola</label>
+        <textarea id="ckCodigo" rows="4" readonly aria-readonly="true"></textarea>
+
+        <button class="btn btn-cheio" id="btnCopiarPix">
+          <svg aria-hidden="true"><use href="#i-copy"/></svg>
+          Copiar código PIX
+        </button>
+        <p class="ck-nota">
+          Escaneie o QR Code ou copie o código no seu app do banco. Após o pagamento,
+          guarde o comprovante — a confirmação é feita pela equipe TAPS após a verificação
+          bancária.
+        </p>
+      </section>
+
+      <!-- Passo 3: pedido criado -->
+      <section class="ck-passo oculto ck-final" id="ck3">
+        <span class="ck-ok"><svg aria-hidden="true"><use href="#i-check"/></svg></span>
+        <h3>Pedido criado</h3>
+        <p class="ck-numero" id="ckNumero">#TAPS-0000</p>
+        <p class="ck-resumo">Total: <b id="ckTotal3">R$ 0,00</b> — pagamento via PIX.</p>
+        <p class="ck-nota">
+          <b>Aguardando confirmação do pagamento.</b> Nossa equipe confirma o recebimento
+          do PIX junto ao banco e entra em contato pelo telefone informado no cadastro
+          para combinar a entrega ou a retirada.
+        </p>
+        <button class="btn btn-cheio" id="btnConcluir">Voltar ao catálogo</button>
+      </section>
+    </div>
+  </div>
+
+  <!-- ============ NOTIFICAÇÕES ============ -->
+  <div class="toasts" id="toasts" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
